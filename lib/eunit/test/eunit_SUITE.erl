@@ -26,6 +26,7 @@
 	 app_test/1, appup_test/1, eunit_test/1, eunit_exact_test/1,
          fixture_test/1, primitive_test/1, surefire_utf8_test/1,
          surefire_latin_test/1, surefire_c0_test/1, surefire_ensure_dir_test/1,
+         surefire_report_name_test/1,
          stacktrace_at_timeout_test/1, scale_timeouts_test/1]).
 
 %% Two eunit tests:
@@ -42,7 +43,7 @@ suite() -> [{ct_hooks,[ts_install_cth]}].
 all() ->
     [app_test, appup_test, eunit_test, eunit_exact_test, primitive_test,
      fixture_test, surefire_utf8_test, surefire_latin_test, surefire_c0_test,
-     surefire_ensure_dir_test, stacktrace_at_timeout_test,
+     surefire_ensure_dir_test, surefire_report_name_test, stacktrace_at_timeout_test,
      scale_timeouts_test].
 
 groups() ->
@@ -187,6 +188,12 @@ surefire_ensure_dir_test(Config) when is_list(Config) ->
     XMLDir = filename:join(proplists:get_value(priv_dir, Config), "c1"),
     ok = eunit:test(tc0, [{report,{eunit_surefire,[{dir,XMLDir}]}}]),
     ok = file:del_dir_r(XMLDir).
+
+surefire_report_name_test(Config) when is_list(Config) ->
+    XMLDir = filename:join(proplists:get_value(priv_dir, Config), "."),
+    ok = eunit:test({test, eunit_simple, foo_test}, [{report,{eunit_surefire,[{dir,XMLDir}]}}]),
+    _Chars = check_surefire(eunit_simple),
+    ok.
 
 stacktrace_at_timeout_test(Config) when is_list(Config) ->
     Chars = check_surefire(ttimesout),

@@ -452,7 +452,9 @@ parse_function(F) when is_function(F) ->
     check_arity(F, 0, F),
     #test{f = F, location = erlang:fun_info_mfa(F)};
 parse_function({test, M, F}) when is_atom(M), is_atom(F) ->
-    #test{f = eunit_test:mf_wrapper(M, F), location = {M, F, 0}};
+    #test{f = eunit_test:mf_wrapper(M, F),
+          location = {M, F, 0},
+          desc = atom_to_list(M)};
 parse_function({M, F}) when is_atom(M), is_atom(F) ->
     %% {M,F} is now considered obsolete; use {test,M,F} instead
     parse_function({test, M, F});

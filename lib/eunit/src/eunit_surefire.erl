@@ -463,6 +463,8 @@ format_time_s([Digit1, Digit2, Digit3 | Tail]) -> [lists:reverse(Tail), $., Digi
 %% Escape a suite's name to generate the filename.
 %% Remark: we might overwrite another testsuite's file.
 %% ----------------------------------------------------------------------------
+escape_suitename(undefined) ->
+    "";
 escape_suitename(Binary) when is_binary(Binary) ->
     escape_suitename(binary_to_list(Binary));
 escape_suitename("module '" ++ String) ->

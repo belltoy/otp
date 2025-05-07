@@ -26,6 +26,7 @@ MODULES =  \
 	eunit_test_listener \
 	eunit_SUITE \
 	tc0 \
+	eunit_simple \
 	tlatin \
 	tutf8 \
 	ttimesout
